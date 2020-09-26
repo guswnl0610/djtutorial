@@ -15,7 +15,6 @@ def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
     latest_question_list = Question.objects.filter(pub_date__lte = timezone.now()).order_by('-pub_date')[:5]
 
-    
     template = loader.get_template('polls/index.html')
     context = {'latest_question_list' : latest_question_list,}
     #return HttpResponse(template.render(context,request))
@@ -44,7 +43,7 @@ def detail(request, question_id):
     try:
         question = Question.objects.filter(pub_date__lte=timezone.now()).get(pk=question_id)
     except Question.DoesNotExist:
-        raise Http404("Question dos not exist")
+        raise Http404("Question does not exist")
     return render(request, 'polls/detail.html', {'question':question})
 
 # class DetailView(generic.DetailView):
@@ -74,6 +73,4 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
         #post로 호출된경우에는 redirect를 해주어야한다
-
-
 
